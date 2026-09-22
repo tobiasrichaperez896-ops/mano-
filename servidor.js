@@ -185,9 +185,36 @@ const servidor = http.createServer((solicitud, respuesta) => {
         return;
     }
 
-    // Servir archivos estáticos
+        if (solicitud.method === "GET" && solicitud.url === "/") {
+        console.log("[RENDER] Servicio de IA activo.");
+
+        respuesta.writeHead(200, {
+            "Content-Type": "text/html; charset=utf-8",
+            "Access-Control-Allow-Origin": "*"
+        });
+
+        respuesta.end(`
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Servicio activo</title>
+            </head>
+            <body>
+                <h1>Mano Robótica IA</h1>
+                <p>Servicio de inteligencia artificial activo.</p>
+                <p>Accede a la aplicación desde GitHub Pages.</p>
+            </body>
+            </html>
+        `);
+
+        return;
+    }
+
+    // Servir los demás archivos
     if (solicitud.method === "GET") {
-        let rutaArchivo = solicitud.url === "/" ? "/index.html" : solicitud.url;
+        let rutaArchivo = solicitud.url;
         rutaArchivo = path.join(__dirname, rutaArchivo);
 
         try {
