@@ -50,6 +50,7 @@ let respuestaEnVoz = false;
 
 const URL_API =
     window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
     window.location.protocol === "file:"
         ? "http://127.0.0.1:3000"
         : "https://mano-uc84.onrender.com";
