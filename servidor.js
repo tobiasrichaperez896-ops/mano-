@@ -212,38 +212,25 @@ const servidor = http.createServer((solicitud, respuesta) => {
         return;
     }
 
-    // Servir los demás archivos
+  const servidor = http.createServer((solicitud, respuesta) => {
+    if (solicitud.method === "GET" && solicitud.url === "/health") {
+        responder(respuesta, { status: "ok", service: "mano-robotica-ia" });
+        return;
+    }
+
     if (solicitud.method === "GET") {
-        let rutaArchivo = solicitud.url;
-        rutaArchivo = path.join(__dirname, rutaArchivo);
+        responder(respuesta, { error: "Ruta no encontrada" }, 404);
+        return;
+    }
 
-        try {
-            if (fs.existsSync(rutaArchivo)) {
-                const contenido = fs.readFileSync(rutaArchivo, "utf-8");
-                const tiposContenido = {
-                    ".html": "text/html; charset=utf-8",
-                    ".css": "text/css; charset=utf-8",
-                    ".js": "application/javascript; charset=utf-8",
-                    ".json": "application/json",
-                    ".png": "image/png",
-                    ".jpg": "image/jpeg",
-                    ".gif": "image/gif",
-                    ".svg": "image/svg+xml",
-                    ".ico": "image/x-icon"
-                };
-                const ext = path.extname(rutaArchivo).toLowerCase();
-                const tipoContenido = tiposContenido[ext] || "application/octet-stream";
-
-                respuesta.writeHead(200, {
-                    "Content-Type": tipoContenido,
-                    "Access-Control-Allow-Origin": "*"
-                });
-                respuesta.end(contenido);
-                return;
-            }
-        } catch (error) {
-            console.log("Error sirviendo archivo:", error.message);
-        }
+    if (solicitud.method === "OPTIONS") {
+        respuesta.writeHead(204, {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Methods": "POST, OPTIONS"
+        });
+        respuesta.end();
+        return;
     }
 
     if (solicitud.method === "OPTIONS") {
