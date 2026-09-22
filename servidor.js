@@ -178,58 +178,19 @@ async function interpretarAccionesChat(texto, historial, estado) {
         return [];
     }
 }
-
-const servidor = http.createServer((solicitud, respuesta) => {
+ const servidor = http.createServer((solicitud, respuesta) => {
     if (solicitud.method === "GET" && solicitud.url === "/health") {
-        responder(respuesta, { status: "ok", service: "mano-robotica-ia" });
-        return;
-    }
-
-        if (solicitud.method === "GET" && solicitud.url === "/") {
-        console.log("[RENDER] Servicio de IA activo.");
-
-        respuesta.writeHead(200, {
-            "Content-Type": "text/html; charset=utf-8",
-            "Access-Control-Allow-Origin": "*"
+        responder(respuesta, {
+            status: "ok",
+            service: "mano-robotica-ia"
         });
-
-        respuesta.end(`
-            <!DOCTYPE html>
-            <html lang="es">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Servicio activo</title>
-            </head>
-            <body>
-                <h1>Mano Robótica IA</h1>
-                <p>Servicio de inteligencia artificial activo.</p>
-                <p>Accede a la aplicación desde GitHub Pages.</p>
-            </body>
-            </html>
-        `);
-
-        return;
-    }
-
-  const servidor = http.createServer((solicitud, respuesta) => {
-    if (solicitud.method === "GET" && solicitud.url === "/health") {
-        responder(respuesta, { status: "ok", service: "mano-robotica-ia" });
         return;
     }
 
     if (solicitud.method === "GET") {
-        responder(respuesta, { error: "Ruta no encontrada" }, 404);
-        return;
-    }
-
-    if (solicitud.method === "OPTIONS") {
-        respuesta.writeHead(204, {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Methods": "POST, OPTIONS"
-        });
-        respuesta.end();
+        responder(respuesta, {
+            error: "Ruta no encontrada"
+        }, 404);
         return;
     }
 
