@@ -48,9 +48,11 @@ let modoLlamadaIA = false;
 let reinicioLlamadaPendiente = false;
 let respuestaEnVoz = false;
 
-const URL_API = window.location.protocol === "file:"
-    ? "http://127.0.0.1:3000"
-    : window.location.origin;
+const URL_API =
+    window.location.hostname === "localhost" ||
+    window.location.protocol === "file:"
+        ? "http://127.0.0.1:3000"
+        : "https://mano-uc84.onrender.com";
 
 
 // ==========================================================
